@@ -1,0 +1,20 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href='{% static "acortadora/style.css" %}' />
+
+<h1>Acortador de URL's</h1>
+
+<form method="POST">{% csrf_token %}
+    Acorta URL: <input type="text" name="url" value="" placeholder="Introduce url"/>
+    <button type="submit">Enviar</button>
+</form>
+<p id="aviso">Se comprueba la existencia del enlace introducido antes de agregar a la BD<p>
+
+{% if lastest_urls %}
+    <h3>Urls Acortadas</h3>
+    <ul>
+    {% for url in lastest_urls %}
+        <li><a href="{{url.url_scheme }}://{{url}}">{{ url.url_scheme }}://{{ url }} </a> &nbsp &#9659 acortada &nbsp &#9659 <a href="{{url.url_scheme }}://{{url}}"> {{request.build_absolute_uri}}{{url.url_acortada }}</li>
+    {% endfor %}
+{% else %}
+    <h3>No hay direcciones acortadas<h3>
+{% endif%}
